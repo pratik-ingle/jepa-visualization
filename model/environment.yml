@@ -1,0 +1,14 @@
+name: jepa
+channels: [conda-forge]
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu121
+      - torch==2.5.1   # cu121 build: works with NVIDIA driver 535 (CUDA 12.2)
+      - torchvision==0.20.1
+      - numpy
+      - pyyaml
+      - pytest
+      - pillow
+      - pyarrow        # only for the Hugging Face CIFAR-10 fallback source

@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+model/.cache/
+model/runs/
+*.pt
+
+# Node
+web/node_modules/
+web/.next/
+web/out/
+
+# OS / editor
+.DS_Store
+.vscode/
+
+# Test-only goldens (26 MB): regenerate with `python -m jepa_viz.export --only golden`
+data/golden/
+model/runs_*/
+web/public/data/
+web/next-env.d.ts
+web/tsconfig.tsbuildinfo

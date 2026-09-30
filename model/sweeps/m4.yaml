@@ -1,0 +1,50 @@
+# Milestone 4: hyperparameter explorer runs. One axis at a time from each baseline (same 200-epoch
+# budget and logging as M1), plus the failure presets and two small 2-way grids. Tags:
+#   axis:<dotted key>   the slider this run belongs to (its value is in `set`)
+#   preset:<name>       a failure-mode preset
+#   grid:<name>         member of a 2-way grid
+# Ordered so the presets and headline axes finish first.
+runs:
+  # ---- presets ----------------------------------------------------------------------------
+  - {name: ijepa-no-warmup, algo: ijepa, set: {optim.warmup_epochs: 0}, tags: [axis:optim.warmup_epochs, preset:no-warmup]}
+  - {name: lejepa-no-warmup, algo: lejepa, set: {optim.warmup_epochs: 0}, tags: [axis:optim.warmup_epochs, preset:no-warmup]}
+  - {name: ijepa-mask-easy, algo: ijepa, set: {mask.npred: 1, mask.pred_scale: [0.05, 0.1]}, tags: [preset:masking-too-easy, grid:npred-x-scale]}
+  # ---- LeJEPA: the single trade-off and the slices ----------------------------------------
+  - {name: lejepa-lam0.01, algo: lejepa, set: {reg.lam: 0.01}, tags: [axis:reg.lam, grid:lam-x-slices]}
+  - {name: lejepa-lam0.2, algo: lejepa, set: {reg.lam: 0.2}, tags: [axis:reg.lam, grid:lam-x-slices]}
+  - {name: lejepa-M16, algo: lejepa, set: {reg.slices: 16}, tags: ["axis:slices=16", grid:lam-x-slices]}
+  - {name: lejepa-M16-fixed, algo: lejepa, set: {reg.slices: 16, reg.resample: false}, tags: ["axis:slices=16 fixed"]}
+  - {name: lejepa-M64, algo: lejepa, set: {reg.slices: 64}, tags: ["axis:slices=64"]}
+  - {name: lejepa-lam0.01-M16, algo: lejepa, set: {reg.lam: 0.01, reg.slices: 16}, tags: [grid:lam-x-slices]}
+  - {name: lejepa-lam0.2-M16, algo: lejepa, set: {reg.lam: 0.2, reg.slices: 16}, tags: [grid:lam-x-slices]}
+  # ---- I-JEPA: masking ----------------------------------------------------------------------
+  - {name: ijepa-tgt-small, algo: ijepa, set: {mask.pred_scale: [0.05, 0.1]}, tags: [axis:mask.pred_scale, grid:npred-x-scale]}
+  - {name: ijepa-tgt-large, algo: ijepa, set: {mask.pred_scale: [0.3, 0.4]}, tags: [axis:mask.pred_scale]}
+  - {name: ijepa-npred1, algo: ijepa, set: {mask.npred: 1}, tags: [axis:mask.npred, grid:npred-x-scale]}
+  - {name: ijepa-npred2, algo: ijepa, set: {mask.npred: 2}, tags: [axis:mask.npred]}
+  - {name: ijepa-ctx-small, algo: ijepa, set: {mask.enc_scale: [0.4, 0.6]}, tags: [axis:mask.enc_scale]}
+  # ---- I-JEPA: predictor, EMA, optimiser, model ----------------------------------------------
+  - {name: ijepa-pred-depth1, algo: ijepa, set: {pred.depth: 1}, tags: [axis:pred.depth]}
+  - {name: ijepa-pred-depth4, algo: ijepa, set: {pred.depth: 4}, tags: [axis:pred.depth]}
+  - {name: ijepa-tau0.99, algo: ijepa, set: {ema.tau0: 0.99}, tags: ["axis:teacher=EMA 0.99→1"]}
+  - {name: ijepa-lr3e-4, algo: ijepa, set: {optim.lr: 0.0003}, tags: [axis:optim.lr]}
+  - {name: ijepa-lr3e-3, algo: ijepa, set: {optim.lr: 0.003}, tags: [axis:optim.lr]}
+  - {name: ijepa-const-lr, algo: ijepa, set: {optim.schedule: constant}, tags: [axis:optim.schedule]}
+  - {name: ijepa-wd-fixed, algo: ijepa, set: {optim.wd_schedule: fixed}, tags: [axis:optim.wd_schedule]}
+  - {name: ijepa-beta2-0.95, algo: ijepa, set: {optim.beta2: 0.95}, tags: [axis:optim.beta2]}
+  - {name: ijepa-adam, algo: ijepa, set: {optim.name: adam}, tags: [axis:optim.name]}
+  - {name: ijepa-sgd, algo: ijepa, set: {optim.name: sgd, optim.lr: 0.05}, tags: [axis:optim.name]}
+  - {name: ijepa-depth2, algo: ijepa, set: {model.depth: 2}, tags: [axis:model.depth]}
+  - {name: ijepa-l2, algo: ijepa, set: {loss: l2}, tags: [axis:loss]}
+  # ---- LeJEPA: views, projector, regulariser, optimiser, model -------------------------------
+  - {name: lejepa-local0, algo: lejepa, set: {views.n_local: 0}, tags: [axis:views.n_local]}
+  - {name: lejepa-local2, algo: lejepa, set: {views.n_local: 2}, tags: [axis:views.n_local]}
+  - {name: lejepa-local-large, algo: lejepa, set: {views.local_scale: [0.3, 0.6]}, tags: [axis:views.local_scale]}
+  - {name: lejepa-K16, algo: lejepa, set: {proj.out: 16}, tags: [axis:proj.out]}
+  - {name: lejepa-K64, algo: lejepa, set: {proj.out: 64}, tags: [axis:proj.out]}
+  - {name: lejepa-proj2, algo: lejepa, set: {proj.depth: 2}, tags: [axis:proj.depth]}
+  - {name: lejepa-vicreg, algo: lejepa, set: {reg.kind: vicreg, reg.lam: 0.5}, tags: [axis:reg.kind]}
+  - {name: lejepa-lr3e-4, algo: lejepa, set: {optim.lr: 0.0003}, tags: [axis:optim.lr]}
+  - {name: lejepa-lr3e-3, algo: lejepa, set: {optim.lr: 0.003}, tags: [axis:optim.lr]}
+  - {name: lejepa-depth2, algo: lejepa, set: {model.depth: 2}, tags: [axis:model.depth]}
+  - {name: lejepa-tmax3, algo: lejepa, set: {reg.t_max: 3.0}, tags: [axis:reg.t_max]}

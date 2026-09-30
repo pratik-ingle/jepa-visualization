@@ -1,0 +1,49 @@
+# Milestone 1: the two showcase baselines + the ablations that must show collapse / anisotropy.
+# Each run: name, algo, set (dotted overrides from the per-algo baseline), tags (explorer axes).
+runs:
+  - name: ijepa-base
+    algo: ijepa
+    set: {log.n_weight_ckpts: 6}
+    tags: [baseline, "axis:teacher=EMA 0.996→1", axis:predictor=transformer]
+  - name: lejepa-base
+    algo: lejepa
+    set: {log.n_weight_ckpts: 6}
+    tags: [baseline, "axis:slices=256"]
+
+  - name: ijepa-no-stopgrad
+    algo: ijepa
+    set: {ema.shared: true, ema.stopgrad: false}
+    tags: [ablation, "axis:teacher=shared, no stop-grad", preset:representation-collapse]
+  - name: ijepa-no-predictor
+    algo: ijepa
+    set: {pred.enabled: false}
+    tags: [ablation, axis:predictor=none]
+  - name: ijepa-linear-predictor
+    algo: ijepa
+    set: {pred.linear: true}
+    tags: [ablation, axis:predictor=linear]
+  - name: ijepa-tau-low
+    algo: ijepa
+    set: {ema.tau0: 0.9, ema.tau1: 0.9}
+    tags: [ablation, "axis:teacher=EMA fixed 0.9", preset:tau-too-low]
+  - name: ijepa-tau0-stopgrad
+    algo: ijepa
+    set: {ema.shared: true, ema.stopgrad: true}
+    tags: [ablation, "axis:teacher=shared, stop-grad"]
+
+  - name: lejepa-lambda0
+    algo: lejepa
+    set: {reg.lam: 0.0}
+    tags: [ablation, axis:reg.lam, preset:representation-collapse]
+  - name: lejepa-M2-fixed
+    algo: lejepa
+    set: {reg.slices: 2, reg.resample: false}
+    tags: [ablation, "axis:slices=2 fixed"]
+  - name: lejepa-M2-resampled
+    algo: lejepa
+    set: {reg.slices: 2}
+    tags: [ablation, "axis:slices=2"]
+  - name: lejepa-lambda-high
+    algo: lejepa
+    set: {reg.lam: 0.95}
+    tags: [ablation, axis:reg.lam, preset:lambda-too-high]
