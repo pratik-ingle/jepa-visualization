@@ -1,6 +1,6 @@
 # JEPA Visualization
 
-**Live demo: <https://pratik-ingle.github.io/jepa-visualization-/>**
+**Live demo: <https://pratik-ingle.github.io/jepa-visualization/>**
 
 An interactive, illustrated 3D guide to Joint-Embedding Predictive Architectures, in the style of
 [bbycroft.net/llm](https://bbycroft.net/llm). Two real tiny models run live in your browser:
