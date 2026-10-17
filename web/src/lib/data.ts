@@ -3,6 +3,7 @@ import { decodeBundle, Manifest } from "@/model/bundle";
 import { Params } from "@/model/vit";
 
 export const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+export const REPO_URL = "https://github.com/pratik-ingle/jepa-visualization";
 const url = (p: string) => `${BASE}/data/${p}`;
 
 export interface Checkpoint {
